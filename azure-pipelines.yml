@@ -1,0 +1,40 @@
+trigger:
+  branches:
+    include:
+      - main
+      - master
+      - develop
+
+pr:
+  branches:
+    include:
+      - main
+      - master
+      - develop
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - checkout: self
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.11'
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    displayName: Install dependencies
+
+  - script: |
+      black --check .
+    displayName: Check formatting (Black)
+
+  - script: |
+      flake8 .
+    displayName: Run linting (Flake8)
+
+  - script: |
+      PYTHONPATH=. pytest
+    displayName: Run tests (Pytest)
