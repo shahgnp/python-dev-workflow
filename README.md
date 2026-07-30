@@ -11,7 +11,6 @@ pip install -r requirements.txt
 ```
 rm -rf .git
 git init
-echo '.venv' > .gitignore
 ```
 
 # Step 3: Install pre-commit
